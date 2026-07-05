@@ -12,36 +12,61 @@ function Result({
         <motion.div
           key="empty"
           className="result"
-          aria-live="polite"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.3 }}
+          initial={{
+            opacity: 0,
+            y: 15,
+          }}
+          animate={{
+            opacity: 1,
+            y: 0,
+          }}
+          exit={{
+            opacity: 0,
+            y: -15,
+          }}
+          transition={{
+            duration: 0.25,
+          }}
         >
           <h2>Ready to Convert</h2>
 
           <p>
-            Enter an amount, select your currencies,
+            Enter an amount, choose your currencies
             and click <strong>Convert Currency</strong>.
           </p>
         </motion.div>
       ) : (
         <motion.div
-          key="result"
+          key={`${amount}-${fromCurrency}-${toCurrency}-${convertedAmount}`}
           className="result"
-          aria-live="polite"
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.95 }}
-          transition={{ duration: 0.3 }}
+          initial={{
+            opacity: 0,
+            y: 30,
+            scale: 0.9,
+          }}
+          animate={{
+            opacity: 1,
+            y: 0,
+            scale: 1,
+          }}
+          exit={{
+            opacity: 0,
+            y: -20,
+            scale: 0.95,
+          }}
+          transition={{
+            type: "spring",
+            stiffness: 180,
+            damping: 18,
+          }}
         >
           <h2>
             {amount} {fromCurrency}
           </h2>
 
-          <p className="equals-text">equals</p>
+          <h3>⇩</h3>
 
-          <h1 className="converted-value">
+          <h1>
             {new Intl.NumberFormat(undefined, {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,

@@ -9,16 +9,23 @@ import { getExchangeRate } from "../services/currencyApi";
 
 function CurrencyCard() {
   const [amount, setAmount] = useState(1);
-
   const [fromCurrency, setFromCurrency] = useState("USD");
-
   const [toCurrency, setToCurrency] = useState("INR");
-
   const [convertedAmount, setConvertedAmount] = useState(null);
-
   const [loading, setLoading] = useState(false);
-
   const [error, setError] = useState("");
+  const [resultKey, setResultKey] = useState(0);
+
+  function handleAmountChange(event) {
+    const value = event.target.value;
+
+    setAmount(value);
+
+    if (value === "" || Number(value) <= 0) {
+      setConvertedAmount(null);
+      setError("");
+    }
+  }
 
   function handleSwapCurrencies() {
     setFromCurrency(toCurrency);
@@ -29,9 +36,9 @@ function CurrencyCard() {
   }
 
   async function handleConvertCurrency() {
-    if (!amount || Number(amount) <= 0) {
-      setError("Please enter a valid amount.");
+    if (amount === "" || Number(amount) <= 0) {
       setConvertedAmount(null);
+      setError("Please enter a valid amount.");
       return;
     }
 
@@ -45,11 +52,13 @@ function CurrencyCard() {
       );
 
       setConvertedAmount(Number(amount) * rate);
+
+      setResultKey((prev) => prev + 1);
     } catch (error) {
+      setConvertedAmount(null);
       setError(
         error.message || "Something went wrong."
       );
-      setConvertedAmount(null);
     } finally {
       setLoading(false);
     }
@@ -69,9 +78,7 @@ function CurrencyCard() {
           min="0"
           step="0.01"
           value={amount}
-          onChange={(event) =>
-            setAmount(event.target.value)
-          }
+          onChange={handleAmountChange}
           onKeyDown={(event) => {
             if (event.key === "Enter") {
               handleConvertCurrency();
@@ -112,6 +119,7 @@ function CurrencyCard() {
         <Loader />
       ) : (
         <Result
+          key={resultKey}
           amount={amount}
           fromCurrency={fromCurrency}
           toCurrency={toCurrency}
