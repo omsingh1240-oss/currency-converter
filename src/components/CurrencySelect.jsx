@@ -1,7 +1,7 @@
 import Select from "react-select";
 
 import { currencyOptions } from "../utils/currencies";
-import { selectStyles } from "../utils/SelectStyles";
+import { selectStyles } from "../utils/selectStyles";
 
 function CurrencySelect({
   label,
