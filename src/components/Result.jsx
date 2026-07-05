@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
+import { HiArrowLongDown } from "react-icons/hi2";
 
 function Result({
   amount,
@@ -12,21 +13,10 @@ function Result({
         <motion.div
           key="empty"
           className="result"
-          initial={{
-            opacity: 0,
-            y: 15,
-          }}
-          animate={{
-            opacity: 1,
-            y: 0,
-          }}
-          exit={{
-            opacity: 0,
-            y: -15,
-          }}
-          transition={{
-            duration: 0.25,
-          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
         >
           <h2>Ready to Convert</h2>
 
@@ -52,27 +42,67 @@ function Result({
           exit={{
             opacity: 0,
             y: -20,
-            scale: 0.95,
           }}
           transition={{
-            type: "spring",
-            stiffness: 180,
-            damping: 18,
+            duration: 0.35,
           }}
         >
-          <h2>
+          <motion.h2
+            initial={{
+              opacity: 0,
+              x: -20,
+            }}
+            animate={{
+              opacity: 1,
+              x: 0,
+            }}
+            transition={{
+              delay: 0.1,
+            }}
+          >
             {amount} {fromCurrency}
-          </h2>
+          </motion.h2>
 
-          <h3>⇩</h3>
+          <motion.div
+            initial={{
+              opacity: 0,
+              y: -10,
+            }}
+            animate={{
+              opacity: 1,
+              y: [0, 8, 0],
+            }}
+            transition={{
+              duration: 0.6,
+            }}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              margin: "12px 0",
+            }}
+          >
+            <HiArrowLongDown size={34} />
+          </motion.div>
 
-          <h1>
+          <motion.h1
+            initial={{
+              opacity: 0,
+              x: 20,
+            }}
+            animate={{
+              opacity: 1,
+              x: 0,
+            }}
+            transition={{
+              delay: 0.2,
+            }}
+          >
             {new Intl.NumberFormat(undefined, {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
             }).format(convertedAmount)}{" "}
             {toCurrency}
-          </h1>
+          </motion.h1>
         </motion.div>
       )}
     </AnimatePresence>
